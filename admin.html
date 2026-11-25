@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Royal Solar Energy × DealMan | Executive Command & Growth Admin Panel</title>
+
+  <!-- Typography matching Royal Solar Energy Luxury Brand Identity -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            solar: {
+              black: '#04060a',
+              dark: '#08111e',
+              surface: '#0d1a2d',
+              gold: '#FDB913',
+              amber: '#FF7A00',
+              warmGold: '#FFD566',
+              green: '#18A558',
+              emerald: '#10B981',
+              skyBlue: '#38BDF8'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            cinzel: ['"Cinzel"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #04060a;
+      color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #08111e; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FDB913, #FF7A00); border-radius: 3px; }
+
+    .glass-panel {
+      background: rgba(8, 17, 30, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(253, 185, 19, 0.22);
+    }
+    .glass-card-hover {
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s, box-shadow 0.28s;
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-3px);
+      border-color: rgba(253, 185, 19, 0.6);
+      box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.85), 0 0 22px rgba(253, 185, 19, 0.16);
+    }
+    .sunkissed-glow {
+      box-shadow: 0 10px 30px -5px rgba(253, 185, 19, 0.32), 0 0 40px rgba(255, 180, 50, 0.14);
+    }
+    .btn-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.42) 50%, rgba(255,255,255,0) 100%);
+      transform: rotate(25deg);
+      animation: shimmer 3.6s infinite;
+    }
+    @keyframes shimmer {
+      0% { left: -70%; }
+      30%, 100% { left: 150%; }
+    }
+    .nav-pill.active {
+      background: linear-gradient(135deg, rgba(253, 185, 19, 0.24), rgba(255, 122, 0, 0.16));
+      border-color: #FDB913;
+      color: #FDB913;
+      box-shadow: 0 0 18px rgba(253, 185, 19, 0.18);
+    }
+    .sub-tab.active {
+      background: #FDB913;
+      color: #04060a;
+      font-weight: 800;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #04060a !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .module-section { display: block !important; break-inside: avoid; margin-bottom: 24px; }
+    }
+  </style>
+</head>
+<body class="selection:bg-solar-gold selection:text-black antialiased">
+
+  <!-- Ambient Background Glows -->
+  <div class="fixed -top-24 -right-24 w-96 h-96 rounded-full bg-gradient-to-br from-amber-300/20 via-solar-gold/10 to-transparent blur-3xl pointer-events-none"></div>
+  <div class="fixed bottom-0 -left-24 w-80 h-80 rounded-full bg-solar-green/10 blur-3xl pointer-events-none"></div>
+
+  <!-- Custom Non-Blocking Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- ================= TOP ACCREDITATION & SPRINT STATUS BAR ================= -->
+  <div class="bg-[#060c18] border-b border-solar-gold/25 text-xs py-2 px-4 sm:px-6 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center space-x-2.5 text-[11px] sm:text-xs">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-md font-bold bg-amber-400/20 text-yellow-300 border border-amber-400/40 text-[10px] tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-amber-400 mr-1.5 animate-ping"></span>
+          CSPDCL REGISTERED VENDOR
+        </span>
+        <span class="text-gray-400 hidden sm:inline">GSTIN: <strong class="font-mono text-gray-200">22CTHPM2432E1ZW</strong></span>
+      </div>
+      <div class="flex items-center space-x-3 text-[11px]">
+        <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 font-semibold">
+          ● DealMan 13-Day Sprint Report Live
+        </span>
+        <a href="tel:+919111227733" class="text-solar-gold hover:underline font-mono font-bold">+91 9111227733</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= EXECUTIVE HEADER ================= -->
+  <header class="border-b border-solar-gold/20 bg-[#04060a]/95 backdrop-blur-lg px-4 sm:px-6 py-4">
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <!-- Brand Identity -->
+      <div class="flex items-center space-x-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-solar-gold via-amber-500 to-solar-green p-0.5 shadow-lg shrink-0">
+          <div class="w-full h-full bg-[#08111e] rounded-[14px] flex items-center justify-center">
+            <svg class="w-7 h-7 text-solar-gold" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="12" r="4.5" />
+              <path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-lg sm:text-2xl font-cinzel font-extrabold tracking-wider text-white">
+              ROYAL <span class="text-solar-gold">SOLAR</span> ENERGY
+            </h1>
+            <span class="px-2 py-0.5 text-[10px] font-mono font-bold uppercase rounded bg-solar-gold/20 text-solar-gold border border-solar-gold/40">
+              Admin Command Portal
+            </span>
+          </div>
+          <p class="text-xs text-gray-300 mt-0.5">
+            Growth Partner: <strong class="text-solar-warmGold">DEALMAN</strong> • 13-Day Work Report, Verified Enquiries, Google & Meta Address Verification & Live Preview Shoot Strategy
+          </p>
+        </div>
+      </div>
+
+      <!-- Global Controls -->
+      <div class="flex flex-wrap items-center gap-2 no-print">
+        <button onclick="window.print()" class="px-3.5 py-2 rounded-xl glass-panel border border-white/15 hover:border-solar-gold/50 text-gray-200 text-xs font-bold flex items-center gap-1.5 transition">
+          <span>🖨️</span>
+          <span>Print / PDF Report</span>
+        </button>
+        <button onclick="openAddLeadModal()" class="btn-shimmer px-4 py-2 rounded-xl bg-gradient-to-r from-solar-gold via-amber-400 to-solar-gold text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:scale-105 transition">
+          + Add New Enquiry
+        </button>
+      </div>
+    </div>
+
+    <!-- Dedicated Section Switcher Bar (Separate Sections Navigation) -->
+    <div class="max-w-7xl mx-auto mt-5 pt-4 border-t border-white/10 no-print">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400 font-bold">Select Dedicated Section View:</span>
+        <span id="active-section-label" class="text-[11px] font-bold text-solar-gold">Showing: All Sections (Complete Dashboard)</span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button onclick="selectSection('all')" id="nav-all" class="nav-pill active px-3.5 py-2 rounded-xl glass-panel text-xs font-bold text-gray-200 border border-white/10 transition flex items-center gap-1.5">
+          <span>🗂️</span> <span>All Sections</span>
+        </button>
+        <button onclick="selectSection('sec-timeline')" id="nav-sec-timeline" class="nav-pill px-3.5 py-2 rounded-xl glass-panel text-xs font-bold text-gray-200 border border-white/10 transition flex items-center gap-1.5">
+          <span>📅</span> <span>1. DealMan 13-Day Work</span>
+        </button>
+        <button onclick="selectSection('sec-leads')" id="nav-sec-leads" class="nav-pill px-3.5 py-2 rounded-xl glass-panel text-xs font-bold text-gray-200 border border-white/10 transition flex items-center gap-1.5">
+          <span>📞</span> <span>2. 3 Generated Enquiries</span>
+          <span id="nav-lead-badge" class="px-1.5 py-0.2 rounded bg-solar-green/25 text-emerald-300 font-mono text-[10px]">03</span>
+        </button>
+        <button onclick="selectSection('sec-address')" id="nav-sec-address" class="nav-pill px-3.5 py-2 rounded-xl glass-panel text-xs font-bold text-gray-200 border border-white/10 transition flex items-center gap-1.5">
+          <span>📍</span> <span>3. Google & Meta Address Verification</span>
+          <span class="px-1.5 py-0.2 rounded bg-sky-500/25 text-sky-300 font-mono text-[10px]">LIVE</span>
+        </button>
+        <button onclick="selectSection('sec-strategy')" id="nav-sec-strategy" class="nav-pill px-3.5 py-2 rounded-xl glass-panel text-xs font-bold text-gray-200 border border-white/10 transition flex items-center gap-1.5">
+          <span>🎬</span> <span>4. Meta Strategy: Live Preview Shoot</span>
+        </button>
+        <button onclick="selectSection('sec-catalogue')" id="nav-sec-catalogue" class="nav-pill px-3.5 py-2 rounded-xl glass-panel text-xs font-bold text-gray-200 border border-white/10 transition flex items-center gap-1.5">
+          <span>☀️</span> <span>5. 9-Page Catalogue & Subsidy Calculator</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN WORKSPACE ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-7 space-y-10">
+
+    <!-- ===================================================================== -->
+    <!-- EXECUTIVE KPI SUMMARY STRIP                                           -->
+    <!-- ===================================================================== -->
+    <section aria-label="Executive KPI Overview" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div onclick="selectSection('sec-timeline')" class="cursor-pointer p-5 rounded-2xl glass-panel glass-card-hover border-l-4 border-l-solar-gold">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] uppercase tracking-wider text-gray-400 font-bold">DealMan Sprint Duration</span>
+          <span class="text-lg">⚡</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold font-mono text-white">13 Days</span>
+          <span class="text-xs text-emerald-400 font-bold">100% Delivered</span>
+        </div>
+        <p class="text-xs text-gray-300 mt-1.5">Website, 9-Page Digital Funnel, Meta Ads & GBP Verification</p>
+      </div>
+
+      <div onclick="selectSection('sec-leads')" class="cursor-pointer p-5 rounded-2xl glass-panel glass-card-hover border-l-4 border-l-solar-green">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] uppercase tracking-wider text-gray-400 font-bold">Verified Enquiries Generated</span>
+          <span class="text-lg">📞</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="kpi-lead-count" class="text-3xl font-extrabold font-mono text-solar-gold">03</span>
+          <span class="text-xs text-emerald-400 font-bold">Bilaspur High-Intent</span>
+        </div>
+        <p class="text-xs text-gray-300 mt-1.5">Parth Pathak, Harsh Patel & Vikram Deshmukh</p>
+      </div>
+
+      <div onclick="selectSection('sec-address')" class="cursor-pointer p-5 rounded-2xl glass-panel glass-card-hover border-l-4 border-l-sky-400">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] uppercase tracking-wider text-gray-400 font-bold">Google & Meta Address Status</span>
+          <span class="text-lg">🛡️</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="kpi-address-status" class="text-lg font-extrabold text-sky-300">In Verification</span>
+        </div>
+        <p id="kpi-active-address" class="text-xs text-gray-300 mt-1.5 truncate">Vaishali Apartment, Tikrapara Main Rd, Bilaspur</p>
+      </div>
+
+      <div onclick="selectSection('sec-strategy')" class="cursor-pointer p-5 rounded-2xl glass-panel glass-card-hover border-l-4 border-l-solar-amber">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] uppercase tracking-wider text-gray-400 font-bold">Meta Strategy Upgrade</span>
+          <span class="text-lg">🎬</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span class="text-lg font-extrabold text-solar-warmGold">Live Preview Shoot</span>
+        </div>
+        <p class="text-xs text-gray-300 mt-1.5">Real Rooftop & Net-Metering Proof Reels Active</p>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1: DEALMAN 13-DAY EXECUTION REPORT (SEPARATE SECTION)         -->
+    <!-- ===================================================================== -->
+    <section id="sec-timeline" class="module-section rounded-3xl glass-panel p-5 sm:p-8 border border-solar-gold/30 shadow-2xl">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-white/10">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-solar-gold/15 border border-solar-gold/40 text-solar-gold font-mono text-xs font-bold">
+            SECTION 01 • DEALMAN EXECUTION LOG
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mt-2">
+            DealMan 13-Day Work Report <span class="text-solar-gold">(Day 01 – Day 13)</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1">
+            Complete day-by-day record of digital setup, PM Surya Ghar ₹1,08,000 subsidy funnel launch, Bilaspur lead generation, and address verification.
+          </p>
+        </div>
+
+        <!-- Phase Filter Buttons -->
+        <div class="flex flex-wrap gap-1.5 no-print">
+          <button onclick="filterTimeline('all', this)" class="tl-filter-btn active px-3 py-1.5 rounded-lg bg-solar-gold text-black font-bold text-xs">All 13 Days</button>
+          <button onclick="filterTimeline('phase1', this)" class="tl-filter-btn px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs border border-white/10">Days 1–3</button>
+          <button onclick="filterTimeline('phase2', this)" class="tl-filter-btn px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs border border-white/10">Days 4–7</button>
+          <button onclick="filterTimeline('phase3', this)" class="tl-filter-btn px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs border border-white/10">Days 8–11</button>
+          <button onclick="filterTimeline('phase4', this)" class="tl-filter-btn px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs border border-white/10">Days 12–13</button>
+        </div>
+      </div>
+
+      <!-- 4 Dedicated Milestone Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+        <!-- Card 1 -->
+        <div data-phase="phase1" class="tl-card p-5 rounded-2xl bg-[#04060a]/80 border border-white/10 hover:border-solar-gold/45 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-md bg-solar-gold/20 text-solar-gold font-mono text-xs font-bold">DAYS 01 – 03 • FOUNDATION</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">✓ Completed</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-3">9-Page Technical Catalogue Digitization & Subsidy Offer Structuring</h3>
+            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+              Audited Royal Solar Energy's complete 9-page brochure and structured high-converting offers around <strong>PM Surya Ghar Muft Bijli Yojana</strong> (₹78,000 Central + ₹30,000 CG State = ₹1,08,000 Double Subsidy), 360 free monthly units on 3kW, March 2027 deadline urgency, and 6% easy bank finance.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex flex-wrap gap-1.5 text-[11px] font-mono text-amber-200">
+            <span class="px-2 py-0.5 rounded bg-white/5">CSPDCL Registered</span>
+            <span class="px-2 py-0.5 rounded bg-white/5">Waaree / Adani TOPCon</span>
+            <span class="px-2 py-0.5 rounded bg-white/5">Apollo GI Structure</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div data-phase="phase2" class="tl-card p-5 rounded-2xl bg-[#04060a]/80 border border-white/10 hover:border-solar-gold/45 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-md bg-solar-gold/20 text-solar-gold font-mono text-xs font-bold">DAYS 04 – 07 • DIGITAL FUNNEL</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">✓ Completed</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-3">Ultra-Luxury 3D Solar Website, Subsidy Calculator & WhatsApp Funnel</h3>
+            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+              Designed and deployed the sun-kissed Royal Solar Energy website featuring live Bilaspur generation metrics, interactive savings & net-cost calculator, 5-layer solar panel anatomy, LocalBusiness SEO Schema, and instant Site-Survey + WhatsApp conversion triggers.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex flex-wrap gap-1.5 text-[11px] font-mono text-amber-200">
+            <span class="px-2 py-0.5 rounded bg-white/5">3D Solar Villa UI</span>
+            <span class="px-2 py-0.5 rounded bg-white/5">Subsidy Calculator</span>
+            <span class="px-2 py-0.5 rounded bg-white/5">Local SEO Schema</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div data-phase="phase3" class="tl-card p-5 rounded-2xl bg-[#04060a]/80 border border-emerald-400/25 hover:border-emerald-400/60 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold">DAYS 08 – 11 • LEAD GENERATION</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">✓ 3 Leads Delivered</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-3">Bilaspur Hyper-Local Meta Campaigns & 3 Verified Enquiries</h3>
+            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+              Launched targeted Bilaspur residential campaigns (20 km radius covering Tikrapara, Mannu Chowk, Sarkanda, Vyapar Vihar & Mangla). Successfully generated <strong>3 verified homeowner enquiries</strong>: <strong>Parth Pathak</strong> (079746 09750), <strong>Harsh Patel</strong> (089823 98829), and <strong>Vikram Deshmukh</strong> (094255 48319).
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex flex-wrap gap-1.5 text-[11px] font-mono text-emerald-300">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/10">Parth Pathak</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/10">Harsh Patel</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/10">Vikram Deshmukh</span>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div data-phase="phase4" class="tl-card p-5 rounded-2xl bg-[#04060a]/80 border border-sky-400/35 hover:border-sky-400/70 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 font-mono text-xs font-bold">DAYS 12 – 13 • VERIFICATION & UPGRADE</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[11px] font-bold animate-pulse">● Active Now</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-3">Google & Meta Address Change Verification + Live Preview Shoot Rollout</h3>
+            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+              Initiated zero-suspension address relocation verification across both <strong>Google Business Profile</strong> and <strong>Meta Business Suite</strong> aligned with GSTIN <span class="font-mono text-white">22CTHPM2432E1ZW</span>, while upgrading Phase-2 Meta creative strategy to <strong>Live Preview Shoot</strong>.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex flex-wrap gap-1.5 text-[11px] font-mono text-sky-300">
+            <span class="px-2 py-0.5 rounded bg-sky-500/10">Google Maps Verification</span>
+            <span class="px-2 py-0.5 rounded bg-sky-500/10">Meta Location Sync</span>
+            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300">Live Preview Shoot</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 2: GENERATED SOLAR ENQUIRIES CRM (3 LEADS + FULL CRUD)        -->
+    <!-- ===================================================================== -->
+    <section id="sec-leads" class="module-section rounded-3xl glass-panel p-5 sm:p-8 border border-solar-green/35 shadow-2xl">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-white/10">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 font-mono text-xs font-bold">
+            SECTION 02 • VERIFIED LEAD PIPELINE
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mt-2">
+            Generated Enquiries <span class="text-solar-gold">(Bilaspur Homeowners)</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1">
+            Direct enquiries generated during DealMan's 13-day campaign. Update statuses, call directly, or send instant WhatsApp quotations.
+          </p>
+        </div>
+
+        <!-- Search, Filter & Add Lead Controls -->
+        <div class="flex flex-wrap items-center gap-2.5 no-print">
+          <input id="lead-search-input" oninput="renderLeads()" type="text" placeholder="Search name, phone, area..." class="px-3.5 py-2 rounded-xl bg-[#04060a] border border-white/15 text-xs text-white focus:outline-none focus:border-solar-gold w-48 sm:w-56" />
+          <select id="lead-status-filter" onchange="renderLeads()" class="px-3 py-2 rounded-xl bg-[#04060a] border border-white/15 text-xs text-gray-200 focus:outline-none focus:border-solar-gold">
+            <option value="ALL">All Statuses</option>
+            <option value="Verified Lead">Verified Lead</option>
+            <option value="Hot Lead">Hot Lead</option>
+            <option value="New Enquiry">New Enquiry</option>
+            <option value="Converted">Converted</option>
+          </select>
+          <button onclick="openAddLeadModal()" class="btn-shimmer px-4 py-2 rounded-xl bg-solar-gold text-black font-extrabold text-xs hover:bg-amber-400 transition">
+            + Add Enquiry
+          </button>
+        </div>
+      </div>
+
+      <!-- Leads Responsive Table -->
+      <div class="mt-5 overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-white/15 text-[11px] uppercase tracking-wider text-gray-400 font-bold">
+              <th class="py-3.5 px-3">Lead ID</th>
+              <th class="py-3.5 px-3">Customer Name & Source</th>
+              <th class="py-3.5 px-3">Contact Number</th>
+              <th class="py-3.5 px-3">System Requirement & Notes</th>
+              <th class="py-3.5 px-3">Pipeline Stage</th>
+              <th class="py-3.5 px-3 text-right">Follow-Up Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leads-table-body" class="divide-y divide-white/10 text-sm">
+            <!-- Dynamically rendered via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 3: GOOGLE & META ADDRESS CHANGE VERIFICATION + LIVE EDITOR    -->
+    <!-- ===================================================================== -->
+    <section id="sec-address" class="module-section rounded-3xl glass-panel p-5 sm:p-8 border border-sky-400/40 shadow-2xl">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-white/10">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 font-mono text-xs font-bold">
+            SECTION 03 • GOOGLE & META ADDRESS VERIFICATION CENTER
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mt-2">
+            Official Address Change & Multi-Platform Verification Tracker
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1 max-w-3xl">
+            DealMan has initiated compliance-backed address relocation verification on both <strong>Google Business Profile</strong> and <strong>Meta Business Suite</strong>. Edit and save the updated address below to sync across all customer touchpoints immediately.
+          </p>
+        </div>
+
+        <!-- Compliance Badge Box -->
+        <div class="p-3.5 rounded-2xl bg-[#04060a]/90 border border-solar-gold/35 text-xs shrink-0">
+          <div class="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Verified Business Identity</div>
+          <div class="font-bold text-white text-sm mt-0.5">Royal Solar Energy</div>
+          <div class="font-mono text-solar-gold text-[11px]">GSTIN: 22CTHPM2432E1ZW</div>
+          <div class="text-[11px] text-emerald-400 font-semibold">CSPDCL Registered Solar EPC</div>
+        </div>
+      </div>
+
+      <!-- Two-Column Interactive Workspace: Left = Address Editor, Right = Impressive Verification Stages -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+
+        <!-- Left 6 Cols: Live Address Editor -->
+        <div class="lg:col-span-6 p-5 sm:p-6 rounded-2xl bg-[#04060a]/85 border border-solar-gold/35 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base sm:text-lg font-bold text-solar-gold flex items-center gap-2">
+              <span>✏️</span> <span>Edit & Sync New Office Address</span>
+            </h3>
+            <span id="address-saved-pill" class="hidden px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[11px] font-bold">
+              ✓ Synced Live
+            </span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs">
+            <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">Previous Registered Catalogue Address:</span>
+            <span class="text-gray-200 font-medium">Vaishali Apartment, Tikrapara Main Road, Near Mannu Chowk, Bilaspur (C.G.) 495001</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="block text-gray-200 font-bold mb-1">Updated Shop / Building / Street Address *</label>
+              <input id="addr-street" type="text" value="Vaishali Apartment, Tikrapara Main Road" class="w-full px-3.5 py-2.5 rounded-xl bg-[#08111e] border border-solar-gold/40 text-white focus:outline-none focus:border-solar-gold" placeholder="Enter new street / complex address" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-gray-200 font-bold mb-1">Nearby Landmark / Chowk *</label>
+                <input id="addr-landmark" type="text" value="Near Mannu Chowk" class="w-full px-3.5 py-2.5 rounded-xl bg-[#08111e] border border-solar-gold/40 text-white focus:outline-none focus:border-solar-gold" placeholder="e.g. Near Vyapar Vihar" />
+              </div>
+              <div>
+                <label class="block text-gray-200 font-bold mb-1">City, State & PIN Code *</label>
+                <input id="addr-citypin" type="text" value="Bilaspur (C.G.) 495001" class="w-full px-3.5 py-2.5 rounded-xl bg-[#08111e] border border-solar-gold/40 text-white focus:outline-none focus:border-solar-gold" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-gray-200 font-bold mb-1">Google Maps Pin URL / Coordinates</label>
+                <input id="addr-mapurl" type="text" value="https://maps.google.com/?q=Royal+Solar+Energy+Bilaspur" class="w-full px-3.5 py-2.5 rounded-xl bg-[#08111e] border border-white/15 text-sky-300 font-mono text-[11px] focus:outline-none focus:border-solar-gold" />
+              </div>
+              <div>
+                <label class="block text-gray-200 font-bold mb-1">Overall Verification Status</label>
+                <select id="addr-stage" class="w-full px-3.5 py-2.5 rounded-xl bg-[#08111e] border border-solar-gold/40 text-amber-300 font-bold focus:outline-none focus:border-solar-gold">
+                  <option value="In Verification (Google + Meta Review)" selected>In Verification (Google + Meta Review)</option>
+                  <option value="Video & Storefront Proof Submitted">Video & Storefront Proof Submitted</option>
+                  <option value="Verified & Live on Google & Meta">Verified & Live on Google & Meta</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="pt-1 flex flex-col sm:flex-row gap-2.5">
+              <button onclick="saveAddressUpdate()" class="btn-shimmer flex-1 py-3 rounded-xl bg-gradient-to-r from-solar-gold via-amber-400 to-solar-gold text-black font-extrabold text-xs uppercase tracking-wider shadow-lg hover:scale-[1.01] transition">
+                Save & Sync Address Across Google & Meta
+              </button>
+              <button onclick="copyFormattedAddress()" class="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs transition">
+                📋 Copy Address
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 6 Cols: Impressive Google & Meta Verification Progress Cards -->
+        <div class="lg:col-span-6 space-y-4">
+
+          <!-- Google Business Profile Verification Card -->
+          <div class="p-5 rounded-2xl bg-[#04060a]/85 border border-emerald-400/35">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-xl bg-white text-black font-extrabold flex items-center justify-center text-sm shadow">G</span>
+                <div>
+                  <h4 class="text-sm font-bold text-white">Google Business Profile (Maps) Verification</h4>
+                  <span class="text-[11px] text-emerald-300 font-semibold">Zero-Suspension Safe Relocation Protocol</span>
+                </div>
+              </div>
+              <span id="gbp-badge" class="px-2.5 py-1 rounded-full bg-amber-400/20 text-amber-300 font-mono text-[10px] font-bold">3 / 4 COMPLETED</span>
+            </div>
+
+            <div id="gbp-checklist" class="space-y-2 text-xs">
+              <label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                <input type="checkbox" checked onchange="recalcVerificationProgress()" class="gbp-step mt-0.5 accent-emerald-400" />
+                <span><strong class="text-white">1. NAP & GSTIN Pre-Alignment:</strong> <span class="text-gray-300">Exact match of Royal Solar Energy, +91 9111227733 & GSTIN <span class="font-mono">22CTHPM2432E1ZW</span> to prevent listing suspension.</span></span>
+              </label>
+              <label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                <input type="checkbox" checked onchange="recalcVerificationProgress()" class="gbp-step mt-0.5 accent-emerald-400" />
+                <span><strong class="text-white">2. Bilaspur 25km Local Ranking Lock:</strong> <span class="text-gray-300">Preserved existing search authority across Bilaspur, Sarkanda, Tikrapara & Vyapar Vihar during pin shift.</span></span>
+              </label>
+              <label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                <input type="checkbox" checked onchange="recalcVerificationProgress()" class="gbp-step mt-0.5 accent-emerald-400" />
+                <span><strong class="text-amber-200">3. Storefront Signboard & Video Verification Queued:</strong> <span class="text-gray-300">Outside board + office interior + CSPDCL vendor proof aligned for rapid Google Trust & Safety approval.</span></span>
+              </label>
+              <label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                <input type="checkbox" onchange="recalcVerificationProgress()" class="gbp-step mt-0.5 accent-emerald-400" />
+                <span><strong class="text-white">4. Live Google Maps Pin & Schema Publish:</strong> <span class="text-gray-400">Final public map pin activation upon Google confirmation.</span></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Meta Business Suite Verification Card -->
+          <div class="p-5 rounded-2xl bg-[#04060a]/85 border border-sky-400/35">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-xl bg-sky-500 text-white font-extrabold flex items-center justify-center text-sm shadow">∞</span>
+                <div>
+                  <h4 class="text-sm font-bold text-white">Meta Business Suite (Facebook, Instagram & WhatsApp)</h4>
+                  <span class="text-[11px] text-sky-300 font-semibold">Ad Account & Page Transparency Location Sync</span>
+                </div>
+              </div>
+              <span id="meta-badge" class="px-2.5 py-1 rounded-full bg-sky-400/20 text-sky-300 font-mono text-[10px] font-bold">2 / 3 COMPLETED</span>
+            </div>
+
+            <div id="meta-checklist" class="space-y-2 text-xs">
+              <label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                <input type="checkbox" checked onchange="recalcVerificationProgress()" class="meta-step mt-0.5 accent-sky-400" />
+                <span><strong class="text-white">1. Facebook & Instagram Page Location Update:</strong> <span class="text-gray-300">Updated business address in Page Info without pausing active Bilaspur lead generation campaigns.</span></span>
+              </label>
+              <label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                <input type="checkbox" checked onchange="recalcVerificationProgress()" class="meta-step mt-0.5 accent-sky-400" />
+                <span><strong class="text-sky-200">2. Business Manager & GST Document Verification:</strong> <span class="text-gray-300">GSTIN & utility alignment submitted for 100% green ad-account compliance.</span></span>
+              </label>
+              <label class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                <input type="checkbox" onchange="recalcVerificationProgress()" class="meta-step mt-0.5 accent-sky-400" />
+                <span><strong class="text-white">3. WhatsApp Business Profile & Geo-Pin Sync:</strong> <span class="text-gray-400">Live address synced to: <span id="live-synced-addr-text" class="text-solar-gold font-semibold">Vaishali Apartment, Tikrapara Main Road, Near Mannu Chowk, Bilaspur (C.G.) 495001</span>.</span></span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 4: META STRATEGY UPGRADE — LIVE PREVIEW SHOOT (DEDICATED)     -->
+    <!-- ===================================================================== -->
+    <section id="sec-strategy" class="module-section rounded-3xl glass-panel p-5 sm:p-8 border border-solar-gold/45 sunkissed-glow">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-white/10">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-solar-gold/20 border border-solar-gold/40 text-solar-gold font-mono text-xs font-bold">
+            SECTION 04 • META CAMPAIGN STRATEGY RECOMMENDATION
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mt-2">
+            Campaign Strategy Upgraded to: <span class="text-solar-gold">Live Preview Shoot</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-200 mt-1 max-w-3xl">
+            DealMan's strategic shift from static graphics to authentic, on-site <strong>Live Preview Shoot Reels</strong> in Bilaspur — showcasing real rooftop installations, live CSPDCL net-metering, and your updated office to maximize homeowner trust.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 text-xs shrink-0">
+          <div class="text-emerald-300 font-bold uppercase tracking-wider text-[10px]">Active Meta Strategy</div>
+          <div class="text-lg font-extrabold text-white mt-0.5">🎬 Live Preview Shoot</div>
+          <div class="text-[11px] text-gray-300">Target: High-Intent Bilaspur Homeowners</div>
+        </div>
+      </div>
+
+      <!-- Phase 1 vs Phase 2 Comparison -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+        <div class="p-5 rounded-2xl bg-[#04060a]/80 border border-white/10">
+          <span class="text-[11px] font-mono text-gray-400 font-bold uppercase">PHASE 1 (DAYS 01 – 13 • COMPLETED)</span>
+          <h3 class="text-lg font-bold text-white mt-1">Graphic & Subsidy Awareness Creatives</h3>
+          <ul class="mt-3 space-y-2 text-xs text-gray-300">
+            <li>✓ Communicated ₹1,08,000 Double Subsidy & 300 Units Free Electricity</li>
+            <li>✓ Established Royal Solar Energy brand presence across Bilaspur</li>
+            <li>✓ Generated <strong>3 Direct Enquiries</strong> (Parth Pathak, Harsh Patel, Vikram Deshmukh)</li>
+          </ul>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-solar-gold/15 via-[#08111e] to-amber-500/10 border border-solar-gold/50">
+          <span class="text-[11px] font-mono text-solar-gold font-bold uppercase">PHASE 2 (RECOMMENDED & ACTIVE • LIVE PREVIEW SHOOT)</span>
+          <h3 class="text-lg font-bold text-white mt-1">On-Site Real Installation & Proof Video Reels</h3>
+          <ul class="mt-3 space-y-2 text-xs text-gray-200">
+            <li>✦ <strong class="text-solar-gold">Live Rooftop Walkthroughs:</strong> Real Bilaspur homes with Waaree/Adani TOPCon panels & Apollo GI structure</li>
+            <li>✦ <strong class="text-solar-gold">Live Net-Meter & Zero-Bill Proof:</strong> Real-time CSPDCL bi-directional meter reading & subsidy breakdown</li>
+            <li>✦ <strong class="text-solar-gold">New Bilaspur Office Live Tour:</strong> Building instant local credibility for site-survey bookings</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Interactive 4-Reel Production Tracker -->
+      <div class="mt-6">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-base font-bold text-white">Live Preview Shoot — 4-Reel Execution Checklist (Click to Update Status)</h3>
+          <span class="text-[11px] text-gray-400 font-mono">Interactive Shoot Tracker</span>
+        </div>
+        <div id="shoot-reels-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 5: 9-PAGE TECHNICAL CATALOGUE & INSTANT SUBSIDY CALCULATOR    -->
+    <!-- ===================================================================== -->
+    <section id="sec-catalogue" class="module-section rounded-3xl glass-panel p-5 sm:p-8 border border-solar-gold/30 shadow-2xl">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-white/10">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-solar-gold/15 border border-solar-gold/40 text-solar-gold font-mono text-xs font-bold">
+            SECTION 05 • SAVED 9-PAGE BROCHURE & QUOTATION ENGINE
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mt-2">
+            Royal Solar Energy — Technical Vault & Subsidy Calculator
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-300 mt-1">
+            All 9 catalogue pages saved and organized into separate interactive sub-tabs for instant customer quotes.
+          </p>
+        </div>
+
+        <!-- Sub-Tab Buttons -->
+        <div class="flex flex-wrap gap-1.5 bg-[#04060a] p-1.5 rounded-2xl border border-white/10 no-print">
+          <button onclick="switchCatTab('calc', this)" class="sub-tab active px-3.5 py-2 rounded-xl text-xs font-bold transition">⚡ Subsidy Calculator</button>
+          <button onclick="switchCatTab('pricing', this)" class="sub-tab px-3.5 py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white transition">💰 All System Rates</button>
+          <button onclick="switchCatTab('brands', this)" class="sub-tab px-3.5 py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white transition">🔋 Panels, Inverters & Batteries</button>
+          <button onclick="switchCatTab('bank', this)" class="sub-tab px-3.5 py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white transition">🏦 Bank & GST Details</button>
+        </div>
+      </div>
+
+      <!-- SUB-TAB A: INTERACTIVE NET-COST & SUBSIDY CALCULATOR -->
+      <div id="cat-calc" class="cat-pane mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-5 space-y-4 p-5 rounded-2xl bg-[#04060a]/80 border border-white/10">
+          <h3 class="text-base font-bold text-solar-gold">Select Solar Package (PM Surya Ghar + CG State)</h3>
+          <div class="space-y-2 text-xs">
+            <label class="block text-gray-300 font-semibold">Choose System Capacity & Type:</label>
+            <select id="calc-package-select" onchange="calculateSolarPackage()" class="w-full px-3.5 py-3 rounded-xl bg-[#08111e] border border-solar-gold/45 text-white font-bold focus:outline-none focus:border-solar-gold">
+              <option value="1kw">1 kW Residential On-Grid (120 Units/Mo)</option>
+              <option value="2kw">2 kW Residential On-Grid (240 Units/Mo)</option>
+              <option value="3kw" selected>3 kW Residential On-Grid — Most Popular (360 Units/Mo)</option>
+              <option value="4kw">4 kW Residential On-Grid (480 Units/Mo)</option>
+              <option value="5kw">5 kW Residential On-Grid (600 Units/Mo)</option>
+              <option value="10kw">10 kW Residential On-Grid (1,200 Units/Mo)</option>
+              <option value="3kw_hyb_la">3 kW Hybrid (Transformer + 2 Lead Acid Batteries)</option>
+              <option value="3kw_hyb_li">3 kW Hybrid (Transformerless + 1 Lithium Battery)</option>
+              <option value="5kw_hyb_la">5 kW Hybrid (Transformer + 4 Lead Acid Batteries)</option>
+              <option value="5kw_hyb_li">5 kW Hybrid (Transformerless + 2 Lithium Batteries)</option>
+            </select>
+          </div>
+          <p class="text-[11px] text-gray-400 leading-relaxed">
+            * Includes Waaree / Adani 540Wp TOPCon Bifacial DCR Panels, Polycab/Waaree Inverter, Apollo Hot-Dip Galvanized GI Structure, Havells ACDB/DCDB, 3-Point Chemical Earthing & CSPDCL Net-Metering.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+          <div class="p-4 rounded-2xl bg-[#04060a]/80 border border-white/10">
+            <span class="text-[10px] uppercase text-gray-400 font-bold">Total System Cost</span>
+            <div id="calc-total" class="text-xl sm:text-2xl font-mono font-extrabold text-white mt-1">₹2,00,000</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-[#04060a]/80 border border-emerald-400/30">
+            <span class="text-[10px] uppercase text-emerald-300 font-bold">Central + CG Subsidy</span>
+            <div id="calc-subsidy" class="text-xl sm:text-2xl font-mono font-extrabold text-emerald-400 mt-1">- ₹1,08,000</div>
+            <div id="calc-sub-split" class="text-[10px] text-gray-400 mt-0.5">₹78,000 + ₹30,000</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-gradient-to-br from-solar-gold/20 to-amber-500/10 border border-solar-gold/50 col-span-2 sm:col-span-1">
+            <span class="text-[10px] uppercase text-solar-gold font-extrabold">Net Payable Cost</span>
+            <div id="calc-net" class="text-xl sm:text-2xl font-mono font-extrabold text-solar-gold mt-1">₹92,000</div>
+            <div class="text-[10px] text-amber-200 mt-0.5">6% Easy Loan Available</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-[#04060a]/80 border border-white/10">
+            <span class="text-[10px] uppercase text-gray-400 font-bold">Free Units / Month</span>
+            <div id="calc-units" class="text-lg font-mono font-bold text-white mt-1">360 Units</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-[#04060a]/80 border border-white/10">
+            <span class="text-[10px] uppercase text-gray-400 font-bold">Approx. Monthly Savings</span>
+            <div id="calc-savings" class="text-lg font-mono font-bold text-emerald-400 mt-1">₹2,200 / mo</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-[#04060a]/80 border border-white/10">
+            <span class="text-[10px] uppercase text-gray-400 font-bold">Warranty Coverage</span>
+            <div class="text-lg font-mono font-bold text-sky-300 mt-1">25 Yrs Panel</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-TAB B: COMPLETE PRICING TABLES -->
+      <div id="cat-pricing" class="cat-pane hidden mt-6 space-y-5">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-white/15 text-gray-400 uppercase font-bold">
+                <th class="py-2.5 px-3">System Capacity</th>
+                <th class="py-2.5 px-3">Units / Mo</th>
+                <th class="py-2.5 px-3">Central Subsidy</th>
+                <th class="py-2.5 px-3">State Subsidy</th>
+                <th class="py-2.5 px-3">Total Subsidy</th>
+                <th class="py-2.5 px-3">Net Consumer Cost</th>
+                <th class="py-2.5 px-3">Monthly Savings</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/10 font-mono">
+              <tr><td class="py-2.5 px-3 font-bold text-white">1 kW On-Grid</td><td class="py-2.5 px-3">120</td><td class="py-2.5 px-3">₹30,000</td><td class="py-2.5 px-3">₹15,000</td><td class="py-2.5 px-3 text-emerald-400 font-bold">₹45,000</td><td class="py-2.5 px-3 text-solar-gold font-bold">₹50,000</td><td class="py-2.5 px-3">₹550</td></tr>
+              <tr><td class="py-2.5 px-3 font-bold text-white">2 kW On-Grid</td><td class="py-2.5 px-3">240</td><td class="py-2.5 px-3">₹60,000</td><td class="py-2.5 px-3">₹30,000</td><td class="py-2.5 px-3 text-emerald-400 font-bold">₹90,000</td><td class="py-2.5 px-3 text-solar-gold font-bold">₹70,000</td><td class="py-2.5 px-3">₹1,100</td></tr>
+              <tr class="bg-solar-gold/10"><td class="py-2.5 px-3 font-bold text-solar-gold">3 kW On-Grid (₹2,00,000)</td><td class="py-2.5 px-3">360</td><td class="py-2.5 px-3">₹78,000</td><td class="py-2.5 px-3">₹30,000</td><td class="py-2.5 px-3 text-emerald-400 font-bold">₹1,08,000</td><td class="py-2.5 px-3 text-solar-gold font-bold">₹92,000</td><td class="py-2.5 px-3">₹2,200</td></tr>
+              <tr><td class="py-2.5 px-3 font-bold text-white">4 kW On-Grid</td><td class="py-2.5 px-3">480</td><td class="py-2.5 px-3">₹78,000</td><td class="py-2.5 px-3">₹30,000</td><td class="py-2.5 px-3 text-emerald-400 font-bold">₹1,08,000</td><td class="py-2.5 px-3 text-solar-gold font-bold">₹1,60,000</td><td class="py-2.5 px-3">₹3,400</td></tr>
+              <tr class="bg-solar-gold/10"><td class="py-2.5 px-3 font-bold text-solar-gold">5 kW On-Grid (₹2,90,000)</td><td class="py-2.5 px-3">600</td><td class="py-2.5 px-3">₹78,000</td><td class="py-2.5 px-3">₹30,000</td><td class="py-2.5 px-3 text-emerald-400 font-bold">₹1,08,000</td><td class="py-2.5 px-3 text-solar-gold font-bold">₹1,82,000</td><td class="py-2.5 px-3">₹4,800</td></tr>
+              <tr><td class="py-2.5 px-3 font-bold text-white">10 kW On-Grid</td><td class="py-2.5 px-3">1,200</td><td class="py-2.5 px-3">₹78,000</td><td class="py-2.5 px-3">₹30,000</td><td class="py-2.5 px-3 text-emerald-400 font-bold">₹1,08,000</td><td class="py-2.5 px-3 text-solar-gold font-bold">₹4,82,000</td><td class="py-2.5 px-3">₹9,600</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-black/50 border border-white/10">
+            <strong class="text-solar-gold block mb-1">Hybrid On-Grid Systems (₹1,08,000 Subsidy Applicable):</strong>
+            <p class="text-gray-300">• 3kW Transformer-Based + 2 Lead Acid: ₹2,60,000 (Net ₹1,52,000)</p>
+            <p class="text-gray-300">• 3kW Transformerless + 1 Lithium: ₹3,05,000 (Net ₹1,97,000)</p>
+            <p class="text-gray-300">• 5kW Transformer-Based + 4 Lead Acid: ₹3,60,000 (Net ₹2,52,000)</p>
+            <p class="text-gray-300">• 5kW Transformerless + 2 Lithium: ₹4,17,000 (Net ₹3,09,000)</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-black/50 border border-white/10">
+            <strong class="text-solar-gold block mb-1">Commercial & Industrial On-Grid (Per kW):</strong>
+            <p class="text-gray-300">• Non-DCR Panel Package: <strong>₹45,000 / kW</strong></p>
+            <p class="text-gray-300">• DCR Panel Package: <strong>₹63,000 – ₹65,000 / kW</strong></p>
+            <p class="text-gray-400 mt-1">• Required Docs: Aadhaar Card, Latest Electricity Bill, PAN Card, Bank Passbook / Cancelled Cheque, Mobile & Email.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-TAB C: APPROVED BRANDS & BATTERIES -->
+      <div id="cat-brands" class="cat-pane hidden mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-solar-gold text-sm">Solar Panels (TOPCon & Bifacial)</h4>
+          <p class="text-gray-300">Waaree • Adani Solar • Tata Power Solar • Loom Solar • UTL Solar • Eastman • Vikram Solar • Luminous • Sungrow • Rayzon • Havells • Solis • Citizen Solar • Pahal • Harsun • En-Icon • Ksolare • Selec • PV Blink</p>
+          <span class="inline-block mt-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">25 Years Performance Warranty</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-solar-gold text-sm">Solar Inverters & BOS Materials</h4>
+          <p class="text-gray-300"><strong>Inverters:</strong> Waaree, Polycab, UTL Solar, Microtek, Eastman, Nexus, PV Blink, Celcronic, Sungrom (5–10 Yrs Warranty).</p>
+          <p class="text-gray-300"><strong>Structure & Safety:</strong> Apollo Hot-Dip Galvanized GI Structure, Havells ACDB/DCDB, SPD, MC4, Polycab DC/AC Copper Cables, 3-Point Chemical Earthing & Lightning Arrester.</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-solar-gold text-sm">Battery Bank Rates (UTL, Exide, Amaron, Eastman)</h4>
+          <p class="text-gray-300">• <strong>25.6V 100Ah Lithium (2560Wh):</strong> ₹34,000/- (5 Yrs Warranty)</p>
+          <p class="text-gray-300">• <strong>48V 100Ah Lithium (4800Wh):</strong> ₹59,000/- (5 Yrs Warranty)</p>
+          <p class="text-gray-300">• <strong>51.2V 100Ah Lithium (5120Wh):</strong> ₹64,500/- (5 Yrs Warranty)</p>
+          <p class="text-gray-300">• <strong>12V 150Ah Lead Acid (UTL Solar):</strong> ₹14,700/- (60 Months Warranty)</p>
+        </div>
+      </div>
+
+      <!-- SUB-TAB D: BANKING & GST DETAILS -->
+      <div id="cat-bank" class="cat-pane hidden mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="p-5 rounded-2xl bg-black/50 border border-solar-gold/30 space-y-2">
+          <h4 class="font-bold text-solar-gold text-sm">Official Company Bank Account Details</h4>
+          <p class="text-gray-300"><strong>Account Name:</strong> Royal Solar Energy</p>
+          <p class="text-gray-300"><strong>Bank Name:</strong> Bank of Maharashtra</p>
+          <p class="text-gray-300"><strong>Account Number:</strong> <span class="font-mono text-white font-bold">60575921090</span> (Current Account)</p>
+          <p class="text-gray-300"><strong>IFSC Code:</strong> <span class="font-mono text-white font-bold">MAHB0000289</span></p>
+          <p class="text-gray-300"><strong>Branch:</strong> Vyapar Vihar, Bilaspur (C.G.)</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-black/50 border border-white/10 space-y-2">
+          <h4 class="font-bold text-solar-gold text-sm">GST, Vendor Registration & Contact</h4>
+          <p class="text-gray-300"><strong>GST Number:</strong> <span class="font-mono text-solar-gold font-bold">22CTHPM2432E1ZW</span></p>
+          <p class="text-gray-300"><strong>Registration:</strong> CSPDCL Registered & Authorised Solar Vendor</p>
+          <p class="text-gray-300"><strong>Direct Helplines:</strong> <span class="font-mono text-white">9111227733</span> / <span class="font-mono text-white">9111297994</span></p>
+          <p class="text-gray-300"><strong>Emails:</strong> msroyalsolar@gmail.com | royalsolarace@gmail.com</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= ADD NEW ENQUIRY MODAL (ZERO ALERT) ================= -->
+  <div id="add-lead-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 no-print">
+    <div class="w-full max-w-md rounded-3xl glass-panel p-6 border border-solar-gold/45 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h3 class="text-lg font-serif font-bold text-white">Add New Solar Enquiry</h3>
+        <button onclick="closeAddLeadModal()" class="text-gray-400 hover:text-white text-2xl leading-none font-bold">&times;</button>
+      </div>
+      <div id="modal-error-box" class="hidden p-2.5 rounded-xl bg-red-500/20 border border-red-400/40 text-red-200 text-xs font-semibold">
+        Please enter Customer Name, Mobile Number, and Requirement.
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-gray-200 font-bold mb-1">Customer Full Name *</label>
+          <input id="new-lead-name" type="text" placeholder="e.g. Rajesh Sharma" class="w-full px-3.5 py-2.5 rounded-xl bg-[#04060a] border border-white/20 text-white focus:outline-none focus:border-solar-gold" />
+        </div>
+        <div>
+          <label class="block text-gray-200 font-bold mb-1">Mobile Number *</label>
+          <input id="new-lead-phone" type="text" placeholder="e.g. 098271 45210" class="w-full px-3.5 py-2.5 rounded-xl bg-[#04060a] border border-white/20 text-white font-mono focus:outline-none focus:border-solar-gold" />
+        </div>
+        <div>
+          <label class="block text-gray-200 font-bold mb-1">Solar Requirement / Location *</label>
+          <input id="new-lead-interest" type="text" placeholder="e.g. 3kW Rooftop Solar + ₹1,08,000 Subsidy (Bilaspur)" class="w-full px-3.5 py-2.5 rounded-xl bg-[#04060a] border border-white/20 text-white focus:outline-none focus:border-solar-gold" />
+        </div>
+        <div>
+          <label class="block text-gray-200 font-bold mb-1">Initial Pipeline Stage</label>
+          <select id="new-lead-status" class="w-full px-3.5 py-2.5 rounded-xl bg-[#04060a] border border-white/20 text-solar-gold font-bold focus:outline-none focus:border-solar-gold">
+            <option value="Verified Lead • Call Done">Verified Lead • Call Done</option>
+            <option value="Hot Lead • Site Survey Pending">Hot Lead • Site Survey Pending</option>
+            <option value="New Enquiry • Quotation Ready">New Enquiry • Quotation Ready</option>
+            <option value="Converted • Installation Booked">Converted • Installation Booked</option>
+          </select>
+        </div>
+        <button onclick="submitNewLead()" class="btn-shimmer w-full py-3 rounded-xl bg-gradient-to-r from-solar-gold to-amber-500 text-black font-extrabold uppercase tracking-wider mt-1">
+          Save Enquiry to Pipeline
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 py-8 mt-6 border-t border-white/10 text-center sm:flex sm:items-center sm:justify-between text-xs text-gray-400">
+    <div>
+      <strong class="text-white">Royal Solar Energy</strong> • CSPDCL Registered Vendor • Bilaspur, Chhattisgarh
+    </div>
+    <div class="mt-2 sm:mt-0">
+      Client Growth & Analytics Portal by <strong class="text-solar-gold">DEALMAN</strong>
+    </div>
+  </footer>
+
+  <!-- ================= COMPLETE INTERACTIVE JAVASCRIPT ================= -->
+  <script>
+    const KEYS = {
+      LEADS: 'rse_admin_leads_v2',
+      ADDR: 'rse_admin_addr_v2',
+      REELS: 'rse_admin_reels_v2'
+    };
+
+    // Custom Toast System (Replaces alert() completely)
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const colors = type === 'error'
+        ? 'bg-red-950/95 border-red-400/60 text-red-100'
+        : 'bg-[#08111e]/95 border-solar-gold/60 text-white';
+
+      toast.className = `pointer-events-auto p-3.5 rounded-2xl border shadow-2xl backdrop-blur-md text-xs font-semibold flex items-center justify-between gap-3 transition-all duration-300 ${colors}`;
+      toast.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span class="text-base">${type === 'error' ? '⚠️' : '✨'}</span>
+          <span>${message}</span>
+        </div>
+        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-white font-bold">&times;</button>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3600);
+    }
+
+    // 1. SECTION NAVIGATION (Separate Sections Switcher)
+    const sectionTitles = {
+      'all': 'All Sections (Complete Dashboard)',
+      'sec-timeline': 'Section 01 — DealMan 13-Day Work Report',
+      'sec-leads': 'Section 02 — Generated Solar Enquiries CRM',
+      'sec-address': 'Section 03 — Google & Meta Address Verification Center',
+      'sec-strategy': 'Section 04 — Meta Strategy: Live Preview Shoot',
+      'sec-catalogue': 'Section 05 — 9-Page Catalogue & Subsidy Calculator'
+    };
+
+    function selectSection(targetId) {
+      const sections = document.querySelectorAll('.module-section');
+      const navBtns = document.querySelectorAll('.nav-pill');
+
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('nav-' + targetId);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      document.getElementById('active-section-label').textContent = 'Showing: ' + (sectionTitles[targetId] || '');
+
+      sections.forEach(sec => {
+        if (targetId === 'all' || sec.id === targetId) {
+          sec.classList.remove('hidden');
+        } else {
+          sec.classList.add('hidden');
+        }
+      });
+    }
+
+    // 2. TIMELINE PHASE FILTER
+    function filterTimeline(phase, btnEl) {
+      document.querySelectorAll('.tl-filter-btn').forEach(b => {
+        b.classList.remove('active', 'bg-solar-gold', 'text-black', 'font-bold');
+        b.classList.add('bg-white/5', 'text-gray-300');
+      });
+      btnEl.classList.add('active', 'bg-solar-gold', 'text-black', 'font-bold');
+      btnEl.classList.remove('bg-white/5', 'text-gray-300');
+
+      document.querySelectorAll('.tl-card').forEach(card => {
+        if (phase === 'all' || card.dataset.phase === phase) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // 3. LEADS CRM (Parth Pathak, Harsh Patel, Vikram Deshmukh)
+    const initialLeads = [
+      {
+        id: 'RSE-101',
+        name: 'Parth Pathak',
+        phone: '079746 09750',
+        interest: '3kW Residential On-Grid Solar • ₹1,08,000 Subsidy Enquiry (Bilaspur)',
+        source: 'DealMan Meta Ad • Day 09',
+        status: 'Verified Lead • Call Done'
+      },
+      {
+        id: 'RSE-102',
+        name: 'Harsh Patel',
+        phone: '089823 98829',
+        interest: '5kW On-Grid / Hybrid Solar + Net Metering Quotation (Bilaspur)',
+        source: 'DealMan Meta Ad • Day 11',
+        status: 'Hot Lead • Site Survey Pending'
+      },
+      {
+        id: 'RSE-103',
+        name: 'Vikram Deshmukh',
+        phone: '094255 48319',
+        interest: '3kW PM Surya Ghar Yojana + 6% Easy Bank Loan (Sarkanda, Bilaspur)',
+        source: 'Website Funnel • Day 12',
+        status: 'New Enquiry • Quotation Ready'
+      }
+    ];
+
+    let leads = JSON.parse(localStorage.getItem(KEYS.LEADS)) || initialLeads;
+    let pendingDeleteIndex = null;
+
+    function getCurrentFullAddress() {
+      const s = document.getElementById('addr-street').value.trim();
+      const l = document.getElementById('addr-landmark').value.trim();
+      const c = document.getElementById('addr-citypin').value.trim();
+      return `${s}, ${l}, ${c}`;
+    }
+
+    function renderLeads() {
+      const tbody = document.getElementById('leads-table-body');
+      const query = (document.getElementById('lead-search-input')?.value || '').toLowerCase();
+      const statusFilter = document.getElementById('lead-status-filter')?.value || 'ALL';
+
+      const countStr = String(leads.length).padStart(2, '0');
+      document.getElementById('kpi-lead-count').textContent = countStr;
+      document.getElementById('nav-lead-badge').textContent = countStr;
+
+      const filtered = leads.map((item, originalIndex) => ({ ...item, originalIndex })).filter(lead => {
+        const matchesQuery = lead.name.toLowerCase().includes(query) ||
+          lead.phone.toLowerCase().includes(query) ||
+          lead.interest.toLowerCase().includes(query);
+        const matchesStatus = statusFilter === 'ALL' || lead.status.includes(statusFilter);
+        return matchesQuery && matchesStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-xs text-gray-400">No enquiries match your filter criteria.</td></tr>`;
+        return;
+      }
+
+      const activeOfficeAddr = getCurrentFullAddress();
+
+      tbody.innerHTML = filtered.map(lead => {
+        const idx = lead.originalIndex;
+        const cleanPhone = lead.phone.replace(/\s+/g, '').replace(/^0/, '91');
+        const waMsg = encodeURIComponent(
+          `Namaste ${lead.name} ji, Royal Solar Energy Bilaspur se sampark kar rahe hain. Aapki enquiry (${lead.interest}) ke liye free site survey aur ₹1,08,000 subsidy details ready hain. Office: ${activeOfficeAddr}`
+        );
+
+        let badgeClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40';
+        if (lead.status.includes('Hot')) badgeClass = 'bg-amber-500/20 text-amber-300 border-amber-400/40';
+        if (lead.status.includes('New')) badgeClass = 'bg-sky-500/20 text-sky-300 border-sky-400/40';
+        if (lead.status.includes('Converted')) badgeClass = 'bg-solar-gold/25 text-solar-gold border-solar-gold/50';
+
+        const isConfirmingDelete = pendingDeleteIndex === idx;
+
+        return `
+          <tr class="hover:bg-white/[0.03] transition">
+            <td class="py-3.5 px-3 font-mono text-xs text-solar-gold font-bold">${lead.id}</td>
+            <td class="py-3.5 px-3">
+              <div class="font-bold text-white">${lead.name}</div>
+              <div class="text-[11px] text-gray-400">${lead.source}</div>
+            </td>
+            <td class="py-3.5 px-3 font-mono text-xs text-gray-200 font-semibold whitespace-nowrap">${lead.phone}</td>
+            <td class="py-3.5 px-3 text-xs text-gray-300 max-w-xs">${lead.interest}</td>
+            <td class="py-3.5 px-3">
+              <select onchange="updateLeadStatus(${idx}, this.value)" class="px-2.5 py-1.5 rounded-lg border text-[11px] font-bold bg-[#08111e] ${badgeClass} focus:outline-none">
+                <option value="Verified Lead • Call Done" ${lead.status === 'Verified Lead • Call Done' ? 'selected' : ''}>Verified Lead • Call Done</option>
+                <option value="Hot Lead • Site Survey Pending" ${lead.status === 'Hot Lead • Site Survey Pending' ? 'selected' : ''}>Hot Lead • Site Survey Pending</option>
+                <option value="New Enquiry • Quotation Ready" ${lead.status === 'New Enquiry • Quotation Ready' ? 'selected' : ''}>New Enquiry • Quotation Ready</option>
+                <option value="Converted • Installation Booked" ${lead.status === 'Converted • Installation Booked' ? 'selected' : ''}>Converted • Installation Booked</option>
+              </select>
+            </td>
+            <td class="py-3.5 px-3 text-right whitespace-nowrap space-x-1.5">
+              <a href="tel:${lead.phone.replace(/\s+/g, '')}" class="inline-flex items-center px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition">
+                📞 Call
+              </a>
+              <a href="https://wa.me/${cleanPhone}?text=${waMsg}" target="_blank" rel="noopener" class="inline-flex items-center px-2.5 py-1.5 rounded-lg bg-solar-green/25 hover:bg-solar-green/40 border border-solar-green/40 text-emerald-300 text-xs font-bold transition">
+                💬 WhatsApp
+              </a>
+              ${isConfirmingDelete
+                ? `<button onclick="confirmDeleteLead(${idx})" class="inline-flex items-center px-2.5 py-1.5 rounded-lg bg-red-600 text-white text-xs font-bold">Confirm?</button>`
+                : `<button onclick="requestDeleteLead(${idx})" title="Remove Enquiry" class="inline-flex items-center px-2 py-1.5 rounded-lg bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-300 text-xs font-bold transition">✕</button>`
+              }
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function updateLeadStatus(idx, newStatus) {
+      leads[idx].status = newStatus;
+      localStorage.setItem(KEYS.LEADS, JSON.stringify(leads));
+      renderLeads();
+      showToast(`Updated ${leads[idx].name} → ${newStatus}`);
+    }
+
+    function requestDeleteLead(idx) {
+      pendingDeleteIndex = idx;
+      renderLeads();
+      setTimeout(() => {
+        if (pendingDeleteIndex === idx) {
+          pendingDeleteIndex = null;
+          renderLeads();
+        }
+      }, 4000);
+    }
+
+    function confirmDeleteLead(idx) {
+      const removed = leads.splice(idx, 1)[0];
+      pendingDeleteIndex = null;
+      localStorage.setItem(KEYS.LEADS, JSON.stringify(leads));
+      renderLeads();
+      showToast(`Removed enquiry for ${removed.name}`);
+    }
+
+    function openAddLeadModal() {
+      document.getElementById('modal-error-box').classList.add('hidden');
+      document.getElementById('add-lead-modal').classList.remove('hidden');
+    }
+
+    function closeAddLeadModal() {
+      document.getElementById('add-lead-modal').classList.add('hidden');
+    }
+
+    function submitNewLead() {
+      const name = document.getElementById('new-lead-name').value.trim();
+      const phone = document.getElementById('new-lead-phone').value.trim();
+      const interest = document.getElementById('new-lead-interest').value.trim();
+      const status = document.getElementById('new-lead-status').value;
+
+      if (!name || !phone || !interest) {
+        document.getElementById('modal-error-box').classList.remove('hidden');
+        return;
+      }
+
+      const nextNum = 101 + leads.length;
+      leads.push({
+        id: 'RSE-' + nextNum,
+        name,
+        phone,
+        interest,
+        source: 'Admin Panel • Added Live',
+        status
+      });
+      localStorage.setItem(KEYS.LEADS, JSON.stringify(leads));
+      renderLeads();
+      closeAddLeadModal();
+      document.getElementById('new-lead-name').value = '';
+      document.getElementById('new-lead-phone').value = '';
+      document.getElementById('new-lead-interest').value = '';
+      showToast(`New enquiry added: ${name}`);
+    }
+
+    // 4. GOOGLE & META ADDRESS VERIFICATION EDITOR & SYNC
+    function loadSavedAddress() {
+      const saved = JSON.parse(localStorage.getItem(KEYS.ADDR));
+      if (saved) {
+        document.getElementById('addr-street').value = saved.street;
+        document.getElementById('addr-landmark').value = saved.landmark;
+        document.getElementById('addr-citypin').value = saved.citypin;
+        document.getElementById('addr-mapurl').value = saved.mapurl;
+        document.getElementById('addr-stage').value = saved.stage;
+
+        const fullAddr = `${saved.street}, ${saved.landmark}, ${saved.citypin}`;
+        document.getElementById('kpi-active-address').textContent = fullAddr;
+        document.getElementById('live-synced-addr-text').textContent = fullAddr;
+        document.getElementById('kpi-address-status').textContent = saved.stage.split('(')[0].trim();
+      }
+    }
+
+    function saveAddressUpdate() {
+      const street = document.getElementById('addr-street').value.trim();
+      const landmark = document.getElementById('addr-landmark').value.trim();
+      const citypin = document.getElementById('addr-citypin').value.trim();
+      const mapurl = document.getElementById('addr-mapurl').value.trim();
+      const stage = document.getElementById('addr-stage').value;
+
+      if (!street || !citypin) {
+        showToast('Please enter both Street Address and City/PIN.', 'error');
+        return;
+      }
+
+      const data = { street, landmark, citypin, mapurl, stage };
+      localStorage.setItem(KEYS.ADDR, JSON.stringify(data));
+
+      const fullAddr = `${street}, ${landmark}, ${citypin}`;
+      document.getElementById('kpi-active-address').textContent = fullAddr;
+      document.getElementById('live-synced-addr-text').textContent = fullAddr;
+      document.getElementById('kpi-address-status').textContent = stage.split('(')[0].trim();
+
+      const pill = document.getElementById('address-saved-pill');
+      pill.classList.remove('hidden');
+      setTimeout(() => pill.classList.add('hidden'), 3500);
+
+      renderLeads(); // Refresh WhatsApp message templates with updated address
+      showToast('Address updated & synced across Google & Meta verification tracker!');
+    }
+
+    function copyFormattedAddress() {
+      const text = `Royal Solar Energy — ${getCurrentFullAddress()} | Phone: +91 9111227733 | GSTIN: 22CTHPM2432E1ZW`;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+        showToast('Formatted office address & GST details copied!');
+      }
+    }
+
+    function recalcVerificationProgress() {
+      const gbpSteps = document.querySelectorAll('.gbp-step');
+      const gbpDone = Array.from(gbpSteps).filter(c => c.checked).length;
+      document.getElementById('gbp-badge').textContent = `${gbpDone} / ${gbpSteps.length} COMPLETED`;
+
+      const metaSteps = document.querySelectorAll('.meta-step');
+      const metaDone = Array.from(metaSteps).filter(c => c.checked).length;
+      document.getElementById('meta-badge').textContent = `${metaDone} / ${metaSteps.length} COMPLETED`;
+
+      showToast('Verification stage checklist updated');
+    }
+
+    // 5. LIVE PREVIEW SHOOT REELS TRACKER
+    const initialReels = [
+      { id: 'REEL 01', title: 'Live Rooftop Installation Walkthrough', desc: 'On-site Bilaspur roof shoot showing Waaree/Adani TOPCon panels & Apollo GI structure.', status: 'Scheduled' },
+      { id: 'REEL 02', title: 'Zero Bijli Bill & Net-Meter Proof', desc: 'Live demonstration of CSPDCL bi-directional meter & ₹1,08,000 subsidy breakdown.', status: 'Script Ready' },
+      { id: 'REEL 03', title: 'New Bilaspur Office Live Tour', desc: 'Walkthrough of updated Royal Solar office with Polycab/UTL inverters & Lithium battery bank.', status: 'Scheduled' },
+      { id: 'REEL 04', title: 'CG ₹30,000 Subsidy Deadline Alert', desc: 'Direct engineer video on March 2027 subsidy deadline & 6% easy bank loan.', status: 'Script Ready' }
+    ];
+
+    let reels = JSON.parse(localStorage.getItem(KEYS.REELS)) || initialReels;
+    const reelStatuses = ['Script Ready', 'Scheduled', 'Shot Completed', 'Live on Meta Ads'];
+
+    function renderReels() {
+      const grid = document.getElementById('shoot-reels-grid');
+      grid.innerHTML = reels.map((r, i) => {
+        const badgeStyle = r.status === 'Live on Meta Ads'
+          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40'
+          : r.status === 'Shot Completed'
+            ? 'bg-sky-500/20 text-sky-300 border-sky-400/40'
+            : 'bg-solar-gold/20 text-solar-gold border-solar-gold/40';
+
+        return `
+          <div onclick="cycleReelStatus(${i})" class="cursor-pointer p-4 rounded-2xl bg-[#04060a]/85 border border-white/10 hover:border-solar-gold/50 transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[11px] font-mono text-solar-gold font-bold">${r.id}</span>
+                <span class="px-2 py-0.5 rounded-full border text-[10px] font-bold ${badgeStyle}">${r.status}</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mt-2">${r.title}</h4>
+              <p class="text-xs text-gray-300 mt-1.5 leading-relaxed">${r.desc}</p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-white/10 text-[10px] text-gray-400 font-mono">
+              Click card to advance stage →
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function cycleReelStatus(index) {
+      const curIdx = reelStatuses.indexOf(reels[index].status);
+      reels[index].status = reelStatuses[(curIdx + 1) % reelStatuses.length];
+      localStorage.setItem(KEYS.REELS, JSON.stringify(reels));
+      renderReels();
+      showToast(`${reels[index].id} updated to: ${reels[index].status}`);
+    }
+
+    // 6. CATALOGUE SUB-TABS & SUBSIDY CALCULATOR
+    function switchCatTab(paneId, btnEl) {
+      document.querySelectorAll('.sub-tab').forEach(b => {
+        b.classList.remove('active');
+        b.classList.add('text-gray-300');
+      });
+      btnEl.classList.add('active');
+      btnEl.classList.remove('text-gray-300');
+
+      document.querySelectorAll('.cat-pane').forEach(p => p.classList.add('hidden'));
+      document.getElementById('cat-' + paneId).classList.remove('hidden');
+    }
+
+    const packageData = {
+      '1kw': { total: '₹95,000', subsidy: '- ₹45,000', split: '₹30,000 + ₹15,000', net: '₹50,000', units: '120 Units', savings: '₹550 / mo' },
+      '2kw': { total: '₹1,60,000', subsidy: '- ₹90,000', split: '₹60,000 + ₹30,000', net: '₹70,000', units: '240 Units', savings: '₹1,100 / mo' },
+      '3kw': { total: '₹2,00,000', subsidy: '- ₹1,08,000', split: '₹78,000 + ₹30,000', net: '₹92,000', units: '360 Units', savings: '₹2,200 / mo' },
+      '4kw': { total: '₹2,68,000', subsidy: '- ₹1,08,000', split: '₹78,000 + ₹30,000', net: '₹1,60,000', units: '480 Units', savings: '₹3,400 / mo' },
+      '5kw': { total: '₹2,90,000', subsidy: '- ₹1,08,000', split: '₹78,000 + ₹30,000', net: '₹1,82,000', units: '600 Units', savings: '₹4,800 / mo' },
+      '10kw': { total: '₹5,90,000', subsidy: '- ₹1,08,000', split: '₹78,000 + ₹30,000', net: '₹4,82,000', units: '1,200 Units', savings: '₹9,600 / mo' },
+      '3kw_hyb_la': { total: '₹2,60,000', subsidy: '- ₹1,08,000', split: '₹78,000 + ₹30,000', net: '₹1,52,000', units: '360 Units + Backup', savings: '₹2,200 / mo' },
+      '3kw_hyb_li': { total: '₹3,05,000', subsidy: '- ₹1,08,000', split: '₹78,000 + ₹30,000', net: '₹1,97,000', units: '360 Units + Li-Ion', savings: '₹2,200 / mo' },
+      '5kw_hyb_la': { total: '₹3,60,000', subsidy: '- ₹1,08,000', split: '₹78,000 + ₹30,000', net: '₹2,52,000', units: '600 Units + Backup', savings: '₹4,800 / mo' },
+      '5kw_hyb_li': { total: '₹4,17,000', subsidy: '- ₹1,08,000', split: '₹78,000 + ₹30,000', net: '₹3,09,000', units: '600 Units + Li-Ion', savings: '₹4,800 / mo' }
+    };
+
+    function calculateSolarPackage() {
+      const key = document.getElementById('calc-package-select').value;
+      const d = packageData[key];
+      document.getElementById('calc-total').textContent = d.total;
+      document.getElementById('calc-subsidy').textContent = d.subsidy;
+      document.getElementById('calc-sub-split').textContent = d.split;
+      document.getElementById('calc-net').textContent = d.net;
+      document.getElementById('calc-units').textContent = d.units;
+      document.getElementById('calc-savings').textContent = d.savings;
+    }
+
+    // Boot Application
+    loadSavedAddress();
+    renderLeads();
+    renderReels();
+    calculateSolarPackage();
+  </script>
+</body>
+</html>
